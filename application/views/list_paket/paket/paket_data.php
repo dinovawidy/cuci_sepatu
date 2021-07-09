@@ -28,10 +28,9 @@
                             <th>Barcode</th>
                             <th>Nama</th>
                             <th>Kategori</th>
-                            <th>Bahan</th>
-                            <th>Harga</th><!-- 
-                            <th>Stok</th>
-                            <th>Gambar</th> -->
+                            <th>bahan</th>
+                            <th>Harga</th>
+                            <th>Gambar</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -51,14 +50,13 @@
                             <td><?=$data->category_name?></td>
                             <td><?=$data->bahan_name?></td>
                             <td><?=$data->price?></td>
-                            <!-- <td><?=$data->stock?></td>
                             <td>
                                 <?php if ($data->image != null) { ?>
-                                    <img src="<?=base_url('uploads/product/'.$data->image)?>" style="width:50px">
+                                    <img src="<?=base_url('uploads/paket/'.$data->image)?>" style="width:50px">
                                 <?php } ?>
                                 
                                     
-                                </td> -->
+                                </td>
                             <td class="text-center" width="160px"> 
                                 <a href="<?=site_url('paket/edit/'.$data->paket_id)?>" class="btn btn-primary btn-xs">
                                    <i class="fa fa-pencil"></i>Edit
@@ -69,36 +67,38 @@
 
                             </td>
                         </tr>
-                        <?php }?> 
+                        <?php }?>
                     </tbody>
                 </table>
             </div>
         </div>
 
     </section>
-        <script>
+
+    <script>
     $(document).ready(function() {
         $('#table1').DataTable({
             "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url" : "<?=site_url('paket/get_ajax')?>",
-            "type" : "POST"
-        },
-        "columnDefs" : [ 
-            {
-            "targets" : [5,6],
-            "className" : 'text-right'
-        },
-        {
-            "targets" : [7,-1],
-            "className" : 'text-center'
-        },
-        {
-            "targets" : [0, 7, -1],
-            "orderable": false
-        }
-    ]
-        });
+            "serverSide": true,
+            "ajax": {
+                "url": "<?=site_url('paket/get_ajax')?>",
+                "type": "POST"
+            },
+            "columnDefs": [
+                {
+                    "targets": [5],
+                    "className": 'text-right'
+                },
+                {
+                    "targets": [6, -1],
+                    "className": 'text-center'
+                },
+                {
+                    "targets": [0, 6, -1],
+                    "orderable": false
+                }
+            ],
+            "order": []
+        })
     })
-    </script>
+</script>

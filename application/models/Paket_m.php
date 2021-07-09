@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Paket_m extends CI_Model {
 
             // start datatables
-        var $column_order = array(null, 'barcode', 'paket.name', 'category_name', 'bahan_name', 'price', 'stock'); //set column field database for datatable orderable
+        var $column_order = array(null, 'barcode', 'paket.name', 'category_name', 'bahan_name', 'price'); //set column field database for datatable orderable
         var $column_search = array('barcode', 'paket.name', 'price'); //set column field database for datatable searchable
         var $order = array('paket_id' => 'asc'); // default order 
     
@@ -85,8 +85,8 @@ class Paket_m extends CI_Model {
                 'name' => $post['paket_name'],
                 'category_id' => $post['category'],
                 'bahan_id' => $post['bahan'],
-                'price' => $post['price'],/*
-                'image' => $post['image'],*/
+                'price' => $post['price'],
+                'image' => $post['image'],
 
             ];
             $this->db->insert('paket', $params);
@@ -107,10 +107,10 @@ class Paket_m extends CI_Model {
                 'bahan_id' => $post['bahan'],
                 'price' => $post['price'],
                 'updated' => date('Y-m-d H:i:s')
-            ];/*
+            ];
             if ($post['image'] != null) {
                 $params['image'] = $post['image'];
-            }*/
+            }
             $this->db->where('paket_id', $post['id']);
             $this->db->update('paket', $params);
 

@@ -168,16 +168,14 @@
             <li <?=$this->uri->segment(1) == 'paket' ? 'class="active"' : ''?>><a href="<?=site_url('paket')?>"><i class="fa fa-circle-o"></i> Paket</a></li>
           </ul>
         </li>
-        <li <?=$this->uri->segment(1) == '' ? 'class="active"' : ''?>>
-            <a href="<?=site_url('')?>"><i class="fa fa-user"></i> <span>Kategori</span></a>
-        </li>
-        <li class="treeview <?= $this->uri->segment(1) == 'stock' || $this->uri->segment(1) == 'sale' ? 'active' : ''?>">
+        
+        <li class="treeview <?= $this->uri->segment(1) == 'stock' || $this->uri->segment(1) == 'transaksi' ? 'active' : ''?>">
           <a href="#">
-            <!-- <i class="fa fa-shopping-cart"></i><span>Transaction</span>
+            <i class="fa fa-shopping-cart"></i><span>Transaksi</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-          </a> -->
+          </a>
           <ul class="treeview-menu">
-            <li <?=$this->uri->segment(1) == 'sale' ? 'class="active"' : ''?>><a href="<?=site_url('sale')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
+            <li <?=$this->uri->segment(1) == 'transaksi' ? 'class="active"' : ''?>><a href="<?=site_url('transaksi')?>"><i class="fa fa-circle-o"></i> Penjualan </a></li>
             <li <?=$this->uri->segment(1) == 'stock' && $this->uri->segment(2) == 'in' ? 'class="active"' : ''?>><a href="<?=site_url('stock/in')?>"><i class="fa fa-circle-o"></i> Stock In</a></li>
             <li <?=$this->uri->segment(1) == 'stock' && $this->uri->segment(2) == 'out' ? 'class="active"' : ''?>><a href="<?=site_url('stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
           </ul>

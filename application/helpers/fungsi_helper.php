@@ -34,7 +34,7 @@ function check_admin()
 
     function indo_currency($nominal)
     {
-        return 'Rp. ' . number_format($nominal, 2, ",", ".");
+        return 'Rp. ' . number_format($nominal, 0, ",", ".");
     }
 
     function indo_date($date)
