@@ -12,12 +12,12 @@
                           <td class="text-center" width="160px">
                             <button id="update_cart" data-toggle="modal" data-target="#modal-item-edit" 
                             data-cartid = "<?=$data->cart_id?>"
-                            data-cartid = "<?=$data->barcode?>"
-                            data-cartid = "<?=$data->paket_name?>"
-                            data-cartid = "<?=$data->cart_price?>"
-                            data-cartid = "<?=$data->qty?>"
-                            data-cartid = "<?=$data->discount_paket?>"
-                            data-cartid = "<?=$data->total?>"
+                            data-barcode = "<?=$data->barcode?>"
+                            data-paket = "<?=$data->paket_name?>"
+                            data-price = "<?=$data->cart_price?>"
+                            data-qty = "<?=$data->qty?>"
+                            data-discount = "<?=$data->discount_paket?>"
+                            data-total = "<?=$data->total?>"
                             class = "btn btn-xs btn-primary">
                               <i class="fa fa-pencil"></i> Update
                             </button>

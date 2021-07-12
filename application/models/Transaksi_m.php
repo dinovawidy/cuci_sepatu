@@ -54,4 +54,54 @@ class Transaksi_m extends CI_Model {
         $this->db->insert('cart', $params);
     }
 
+    function update_cart_qty($post) {
+        $sql = "UPDATE cart SET price = '$post[price]',
+                qty = qty + '$post[qty]',
+                total = '$post[price]' * qty
+                WHERE paket_id = '$post[paket_id]'";
+        $this->db->query($sql);
+    }
+
+    public function del_cart($params = null)
+    {
+        if($params != null) {
+            $this->db->where($params);
+        }
+        $this->db->delete('cart');
+    }
+
+    public function edit_cart($post)
+    {
+        $params = array(
+            'price' => $post['price'],
+            'qty' => $post['qty'],
+            'discount_paket' => $post['discount'],
+            'total' => $post['total'],
+        );
+        $this->db->where('cart_id', $post['cart_id']);
+        $this->db->update('cart', $params);
+    }
+
+    public function add_transaksi($post)
+    {
+        $params = array(
+            'invoice' => $this->invoice_no(),
+            'customer_id' => $post['customer_id'] == "" ? null : $data['customer_id'],
+            'total_price' => $post['subtotal'],
+            'discount' => $post['discount'],
+            'final_price' => $post['grandtotal'],
+            'cash' => $post['cash'],
+            'remaining' => $post['change'],
+            'note' => $post['note'],
+            'date' => $post['date'],
+            'user_id' => $this->session->userdata('userid')
+        );
+        $this->db->insert('transaksi', $params);
+        return $this->db->insert_id();
+    }
+
+    function add_transaksi_detail($params) {
+        $this->db->insert_batch('transaksi_detail', $params);
+    }
+
 }
