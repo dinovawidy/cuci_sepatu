@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2021 at 09:23 AM
--- Server version: 10.1.39-MariaDB
--- PHP Version: 7.3.5
+-- Generation Time: Jul 13, 2021 at 04:01 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 7.4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -62,13 +61,29 @@ INSERT INTO `bahan` (`bahan_id`, `name`, `created`, `updated`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `cart_id` int(11) NOT NULL,
+  `paket_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `discount_paket` int(11) DEFAULT 0,
+  `total` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -93,7 +108,7 @@ CREATE TABLE `customer` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `address` text NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -137,49 +152,6 @@ INSERT INTO `customers` (`id`, `user_id`, `nama`, `alamat`, `email`, `no_telp`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(9, '2014_10_12_000000_create_users_table', 3),
-(10, '2014_10_12_100000_create_password_resets_table', 3),
-(11, '2019_08_19_000000_create_failed_jobs_table', 3),
-(12, '2020_10_11_044519_create_customers_table', 3),
-(13, '2020_10_12_090836_add_soft_delete_to_customers', 3),
-(14, '2020_11_24_121237_create_paket_table', 4),
-(15, '2020_12_18_111346_create_pesanan_table', 5),
-(16, '2020_12_22_101538_create_pembayaran_table', 6),
-(17, '2020_12_22_101843_create_transaksi_table', 7);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `paket`
 --
 
@@ -190,7 +162,8 @@ CREATE TABLE `paket` (
   `category_id` int(11) NOT NULL,
   `bahan_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -198,20 +171,10 @@ CREATE TABLE `paket` (
 -- Dumping data for table `paket`
 --
 
-INSERT INTO `paket` (`paket_id`, `barcode`, `name`, `category_id`, `bahan_id`, `price`, `created_at`, `updated_at`) VALUES
-(0, 'A001', 'Woman Shoes', 1, 1, 1234, '2021-02-15 01:56:08', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `password_resets`
---
-
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `paket` (`paket_id`, `barcode`, `name`, `category_id`, `bahan_id`, `price`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'A001', 'Woman Shoes', 1, 1, 1234, '', '2021-02-15 01:56:08', NULL),
+(2, 'A003', 'Man Shoes', 2, 1, 28000, '', '2021-07-04 21:39:19', NULL),
+(3, 'A004', 'Paket 2', 1, 2, 30000, 'paket-210704-7f055cbba1.png', '2021-07-04 21:44:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -222,7 +185,7 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `pembayaran` (
   `pembayaran_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -243,7 +206,7 @@ INSERT INTO `pembayaran` (`pembayaran_id`, `name`, `created`, `updated`) VALUES
 CREATE TABLE `pemesanan` (
   `pemesanan_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -283,12 +246,51 @@ INSERT INTO `pesanan` (`id`, `nama`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `transaksi` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `berat` int(11) NOT NULL,
-  `total` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `transaksi_id` int(11) NOT NULL,
+  `invoice` varchar(50) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `total_price` int(11) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `final_price` int(11) NOT NULL,
+  `cash` int(11) NOT NULL,
+  `remaining` int(11) NOT NULL,
+  `note` text NOT NULL,
+  `date` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`transaksi_id`, `invoice`, `customer_id`, `total_price`, `discount`, `final_price`, `cash`, `remaining`, `note`, `date`, `user_id`, `created`) VALUES
+(1, 'TS2107120001', NULL, 118068, 10000, 108068, 200000, 91932, 'lunas', '2021-07-12', 1, '2021-07-12 20:12:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi_detail`
+--
+
+CREATE TABLE `transaksi_detail` (
+  `detail_id` int(11) NOT NULL,
+  `transaksi_id` int(11) NOT NULL,
+  `paket_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `discount_paket` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi_detail`
+--
+
+INSERT INTO `transaksi_detail` (`detail_id`, `transaksi_id`, `paket_id`, `price`, `qty`, `discount_paket`, `total`) VALUES
+(1, 1, 1, 1234, 2, 200, 2068),
+(2, 1, 2, 28000, 2, 0, 56000),
+(3, 1, 3, 30000, 2, 0, 60000);
 
 -- --------------------------------------------------------
 
@@ -363,6 +365,14 @@ ALTER TABLE `bahan`
   ADD PRIMARY KEY (`bahan_id`);
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `paket_id` (`paket_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -395,6 +405,19 @@ ALTER TABLE `pemesanan`
   ADD PRIMARY KEY (`pemesanan_id`);
 
 --
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`transaksi_id`);
+
+--
+-- Indexes for table `transaksi_detail`
+--
+ALTER TABLE `transaksi_detail`
+  ADD PRIMARY KEY (`detail_id`),
+  ADD KEY `paket_id` (`paket_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -423,6 +446,12 @@ ALTER TABLE `customer`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `paket`
+--
+ALTER TABLE `paket`
+  MODIFY `paket_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
@@ -435,6 +464,18 @@ ALTER TABLE `pemesanan`
   MODIFY `pemesanan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `transaksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `transaksi_detail`
+--
+ALTER TABLE `transaksi_detail`
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -445,11 +486,24 @@ ALTER TABLE `user`
 --
 
 --
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`paket_id`) REFERENCES `paket` (`paket_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `paket`
 --
 ALTER TABLE `paket`
   ADD CONSTRAINT `paket_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
   ADD CONSTRAINT `paket_ibfk_2` FOREIGN KEY (`bahan_id`) REFERENCES `bahan` (`bahan_id`);
+
+--
+-- Constraints for table `transaksi_detail`
+--
+ALTER TABLE `transaksi_detail`
+  ADD CONSTRAINT `transaksi_detail_ibfk_1` FOREIGN KEY (`paket_id`) REFERENCES `paket` (`paket_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
