@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                   <td style="vertical-align: top">
-                    <label for="date">Customer</label>
+                    <label for="customer">Customer</label>
                   </td>
                   <td>
                     <div>
@@ -543,6 +543,7 @@
             success: function(result) {
               if(result.success) {
                 alert('transaksi berhasil');
+                window.open('<?=site_url('transaksi/cetak/')?>' + result.transaksi_id, '_blank');
               }
               else {
                 alert('transaksi gagal');
@@ -551,6 +552,29 @@
             }
           })
         }
+      }
+    })
+
+    $(document).on('click', '#cancel_payment', function() {
+      if(confirm('Apakah anda yakin ?')){
+        $.ajax({
+          type: 'POST',
+          url: '<?=site_url('transaksi/cart_del')?>',
+          dataType: 'json',
+          data:{'cancel_payment' : true},
+          success: function(result) {
+            if(result.success == true) {
+              $('#cart_table').load('<?=site_url('transaksi/cart_data')?>', function  () {
+                calculate()
+              })
+            }
+          }
+        })
+        $('#discount').val(0)
+        $('#cash').val(0)
+        $('#customer').val(0).change()
+        $('#barcode').val('')
+        $('barcode').focus()
       }
     })
     </script>

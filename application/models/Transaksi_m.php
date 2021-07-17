@@ -82,11 +82,28 @@ class Transaksi_m extends CI_Model {
         $this->db->update('cart', $params);
     }
 
+    
+
+    public function get_transaksi($id = null)
+    {
+        $this->db->select('*, customer.name as customer_name, user.username as user_name,
+                            transaksi.created as transaksi_created');
+        $this->db->from('transaksi');
+        $this->db->join('customer', 'transaksi.customer_id = customer.customer_id', 'left');
+        $this->db->join('user', 'transaksi.user_id = user.user_id');
+        if($id != null) {
+            $this->db->where('transaksi_id', $id);
+        }
+        $this->db->order_by('transaksi_id', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function add_transaksi($post)
     {
         $params = array(
             'invoice' => $this->invoice_no(),
-            'customer_id' => $post['customer_id'] == "" ? null : $data['customer_id'],
+            'customer_id' => $post['customer_id'] == "" ? null : $post['customer_id'],
             'total_price' => $post['subtotal'],
             'discount' => $post['discount'],
             'final_price' => $post['grandtotal'],
@@ -102,6 +119,50 @@ class Transaksi_m extends CI_Model {
 
     function add_transaksi_detail($params) {
         $this->db->insert_batch('transaksi_detail', $params);
+    }
+
+    public function get_transaksi_pagination($limit = null, $start = null)
+    {
+        $post = $this->session->userdata('search');
+        $this->db->select('*, customer.name as customer_name, user.username as user_name,
+                            transaksi.created as transaksi_created');
+        $this->db->from('transaksi');
+        $this->db->join('customer', 'transaksi.customer_id = customer.customer_id', 'left');
+        $this->db->join('user', 'transaksi.user_id = user.user_id');
+        if(!empty($post['date1']) && !empty($post['date2'])) {
+            $this->db->where("transaksi.date BETWEEN '$post[date1]' AND '$post[date2]'");
+        }
+        if(!empty($post['customer'])) {
+            if($post['customer'] == 'null') {
+                $this->db->where("transaksi.customer_id IS NULL");
+            } else {
+                $this->db->where("transaksi.customer_id", $post['customer']);
+            }
+        }
+        if(!empty($post['invoice'])) {
+            $this->db->like("invoice", $post['invoice']);
+        }
+        $this->db->limit($limit, $start);
+        $this->db->order_by('transaksi_id', 'desc');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function get_transaksi_detail($transaksi_id = null)
+    {
+        $this->db->from('transaksi_detail');
+        $this->db->join('paket', 'transaksi_detail.paket_id = paket.paket_id');
+        if($transaksi_id != null) {
+            $this->db->where('transaksi_detail.transaksi_id', $transaksi_id);
+        }
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function del_transaksi($id)
+    {
+        $this->db->where('transaksi_id', $id);
+        $this->db->delete('transaksi');
     }
 
 }

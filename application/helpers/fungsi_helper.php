@@ -21,7 +21,7 @@ function check_not_login()
     {
         redirect('auth/login');
     }
-
+}
 function check_admin()
 {
     $ci =& get_instance();
@@ -32,9 +32,10 @@ function check_admin()
     }
     }
 
-    function indo_currency($nominal)
+    function indo_currency($angka)
     {
-        return 'Rp. ' . number_format($nominal, 0, ",", ".");
+        $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+        return $hasil_rupiah;
     }
 
     function indo_date($date)
@@ -44,4 +45,3 @@ function check_admin()
         $y = substr($date,0,4);
         return $d.'/'.$m.'/'.$y;
     }
-}
