@@ -106,7 +106,7 @@ class Paket_m extends CI_Model {
                 'category_id' => $post['category'],
                 'bahan_id' => $post['bahan'],
                 'price' => $post['price'],
-                'updated' => date('Y-m-d H:i:s')
+                'updated_at' => date('Y-m-d H:i:s')
             ];
             if ($post['image'] != null) {
                 $params['image'] = $post['image'];

@@ -10,6 +10,8 @@ class Report extends CI_Controller {
 		$this->load->model('transaksi_m');
 	}
 
+
+
 	public function transaksi()
 	{
 		$this->load->model('customer_m');

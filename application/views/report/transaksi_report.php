@@ -82,7 +82,7 @@
             <div class="box-header">
             </div>
             <div class="box-body table responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="table1">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -196,6 +196,10 @@
     </div>
 </div>
  
+
+
+
+
 <script>
 $(document).on('click', '#detail', function() {
     $('#invoice').text($(this).data('invoice'))
@@ -220,3 +224,5 @@ $(document).on('click', '#detail', function() {
     })
 })
 </script>
+
+ 

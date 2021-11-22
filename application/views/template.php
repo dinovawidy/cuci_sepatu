@@ -138,18 +138,7 @@
             <a href="<?=site_url('dashboard')?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
         </li>
         <!-- dropdown list pada  -->
-        <li class="treeview <?=$this->uri->segment(1) == 'pembayaran' ||
-                                $this->uri->segment(1) == 'pesanan' ? 'active' : ''?>">
-          <a href="#">
-            <i class="fa fa-archive"></i><span>Status</span>
-            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-          </a>
-          <ul class="treeview-menu">
-            <li <?=$this->uri->segment(1) == 'pembayaran' ? 'class="active"' : ''?>><a href="<?=site_url('pembayaran')?>"><i class="fa fa-circle-o"></i> Pembayaran</a></li>
-            <li <?=$this->uri->segment(1) == 'pemesanan' ? 'class="active"' : ''?>><a href="<?=site_url('pemesanan')?>"><i class="fa fa-circle-o"></i> Pemesanan</a></li>
-            <li <?=$this->uri->segment(1) == 'item' ? 'class="active"' : ''?>><a href="<?=site_url('item')?>"><i class="fa fa-circle-o"></i> Item</a></li>
-          </ul>
-        </li>
+        
 
         <li <?=$this->uri->segment(1) == 'customer' ? 'class="active"' : ''?>>
             <a href="<?=site_url('customer')?>"><i class="fa fa-user"></i> <span>Customer</span></a>
@@ -187,7 +176,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=site_url('report/transaksi')?>"><i class="fa fa-circle-o"></i> Penjulan</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Stocs</a></li>
+            
           </ul>
         </li>
         <?php if($this->fungsi->user_login()->level == 1) { ?>
